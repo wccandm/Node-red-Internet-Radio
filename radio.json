@@ -1,0 +1,1266 @@
+[
+    {
+        "id": "7198d981.c8e7c8",
+        "type": "tab",
+        "label": "WebRadio",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "59ce5f96.a796e",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "56f65a49.9eab54",
+        "name": "",
+        "order": 1,
+        "width": "11",
+        "height": "3",
+        "format": "<!DOCTYPE html> \n<div>\n    <h3>{{msg.payload.status.state}} channel\n    {{msg.payload.currentsong.Pos}}\n    {{msg.payload.currentsong.Name}}</h3>\n    <p>------------------------------------------------------------------------------------------</p>\n    <h4>{{msg.payload.currentsong.Title}}</h4>\n</div>\n",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 300,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8b38271d.a61dc8",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "56f65a49.9eab54",
+        "name": "volume",
+        "order": 10,
+        "width": "10",
+        "height": 1,
+        "format": "<!DOCTYPE html> \n<div>\n    <h4>Volume : {{msg.payload.status.volume}}%</h4>\n</div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 300,
+        "y": 120,
+        "wires": [
+            [
+                "385fe7bd.db7248"
+            ]
+        ]
+    },
+    {
+        "id": "385fe7bd.db7248",
+        "type": "ui_gauge",
+        "z": "7198d981.c8e7c8",
+        "name": "VolumeGauge",
+        "group": "56f65a49.9eab54",
+        "order": 11,
+        "width": "10",
+        "height": "7",
+        "gtype": "gage",
+        "title": "Volume (%)",
+        "label": "%",
+        "format": "{{msg.payload.status.volume}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "50",
+        "seg2": "80",
+        "x": 460,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "efb03e6b.11b788",
+        "type": "ui_slider",
+        "z": "7198d981.c8e7c8",
+        "name": "setvol",
+        "label": "Volume",
+        "tooltip": "",
+        "group": "56f65a49.9eab54",
+        "order": 9,
+        "width": "10",
+        "height": "1",
+        "passthru": false,
+        "outs": "all",
+        "topic": "",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "x": 90,
+        "y": 380,
+        "wires": [
+            [
+                "fd0c3780.c141b8"
+            ]
+        ]
+    },
+    {
+        "id": "b048977c.4d001",
+        "type": "mpd out",
+        "z": "7198d981.c8e7c8",
+        "name": "",
+        "topic": "",
+        "server": "d1a27b8c.4edb9",
+        "x": 500,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca5b9974.2bae5",
+        "type": "mpd in",
+        "z": "7198d981.c8e7c8",
+        "name": "",
+        "topic": "",
+        "server": "d1a27b8c.4edb9",
+        "x": 90,
+        "y": 80,
+        "wires": [
+            [
+                "8b38271d.a61dc8",
+                "59ce5f96.a796e"
+            ]
+        ]
+    },
+    {
+        "id": "fd0c3780.c141b8",
+        "type": "function",
+        "z": "7198d981.c8e7c8",
+        "name": "Volume",
+        "func": "var _in = msg.payload;\nmsg.payload = \"setvol \" + _in;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 240,
+        "y": 380,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "8a893599.c35ec8",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "volume up",
+        "group": "56f65a49.9eab54",
+        "order": 8,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "label": "",
+        "tooltip": "Volume +2%",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fa-volume-up",
+        "payload": "volume +2",
+        "payloadType": "str",
+        "topic": "",
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "3f525413.2ad78c",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "volume down",
+        "group": "56f65a49.9eab54",
+        "order": 7,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "label": "",
+        "tooltip": "Volume 12%",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fa-volume-down",
+        "payload": "volume -2",
+        "payloadType": "str",
+        "topic": "",
+        "x": 110,
+        "y": 260,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "f75eadf0.caeca8",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "mute",
+        "group": "56f65a49.9eab54",
+        "order": 4,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "label": "",
+        "tooltip": "Mute",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fa-volume-off",
+        "payload": "setvol 0",
+        "payloadType": "str",
+        "topic": "",
+        "x": 90,
+        "y": 300,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "d6d4cfc6.862398",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "setvol 30%",
+        "group": "56f65a49.9eab54",
+        "order": 5,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "label": "",
+        "tooltip": "Volume 30%",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fa-bars",
+        "payload": "setvol 30",
+        "payloadType": "str",
+        "topic": "",
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "1b685b70.cea385",
+        "type": "comment",
+        "z": "7198d981.c8e7c8",
+        "name": "Webradio status and control",
+        "info": "",
+        "x": 160,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "79df7165.37f56",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "stop",
+        "group": "56f65a49.9eab54",
+        "order": 12,
+        "width": "3",
+        "height": "2",
+        "passthru": false,
+        "label": "",
+        "tooltip": "Stop",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fa-stop",
+        "payload": "stop",
+        "payloadType": "str",
+        "topic": "",
+        "x": 90,
+        "y": 420,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "65e85ac0.268f14",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "Clear playlist",
+        "group": "56f65a49.9eab54",
+        "order": 2,
+        "width": "11",
+        "height": "1",
+        "passthru": false,
+        "label": "Clear playlist",
+        "tooltip": "Clear playlist",
+        "color": "yellow",
+        "bgcolor": "red",
+        "icon": "",
+        "payload": "clear",
+        "payloadType": "str",
+        "topic": "",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "2fe796c1.82c05a",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "NPO1",
+        "group": "2ee7f558.f1182a",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "NPO1",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 1",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 500,
+        "wires": [
+            [
+                "db945362.c5bea"
+            ]
+        ]
+    },
+    {
+        "id": "8b9d9c7c.e53c38",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "NPO2",
+        "group": "2ee7f558.f1182a",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "NPO2",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 2",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 540,
+        "wires": [
+            [
+                "db945362.c5bea"
+            ]
+        ]
+    },
+    {
+        "id": "11fa1c5d.fa20e4",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "NPO3",
+        "group": "2ee7f558.f1182a",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "NPO3",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 3",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 580,
+        "wires": [
+            [
+                "db945362.c5bea"
+            ]
+        ]
+    },
+    {
+        "id": "444cfd19.3e21f4",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "NPO4",
+        "group": "2ee7f558.f1182a",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "NPO4",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 4",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 620,
+        "wires": [
+            [
+                "db945362.c5bea"
+            ]
+        ]
+    },
+    {
+        "id": "84d41d93.1cd07",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "NPO5",
+        "group": "2ee7f558.f1182a",
+        "order": 9,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "NPO5",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 5",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 660,
+        "wires": [
+            [
+                "db945362.c5bea"
+            ]
+        ]
+    },
+    {
+        "id": "3cebf8.9417ac08",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "NPO6",
+        "group": "2ee7f558.f1182a",
+        "order": 11,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "NPO6",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 6",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 700,
+        "wires": [
+            [
+                "db945362.c5bea"
+            ]
+        ]
+    },
+    {
+        "id": "a32202f3.8c4fa",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "Load playlist",
+        "group": "56f65a49.9eab54",
+        "order": 3,
+        "width": "11",
+        "height": "1",
+        "passthru": false,
+        "label": "Load playlist",
+        "tooltip": "Load playlist",
+        "color": "yellow",
+        "bgcolor": "blue",
+        "icon": "",
+        "payload": "load radio",
+        "payloadType": "str",
+        "topic": "",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "ebb74552.a405b",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "1LIVE",
+        "group": "5553aee6.4eab5",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "1LIVE",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 7",
+        "payloadType": "str",
+        "topic": "",
+        "x": 590,
+        "y": 500,
+        "wires": [
+            [
+                "4a4375f5.cbbeac"
+            ]
+        ]
+    },
+    {
+        "id": "3e316d5f.848172",
+        "type": "comment",
+        "z": "7198d981.c8e7c8",
+        "name": "publieke omroepen",
+        "info": "",
+        "x": 130,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "4c929a8f.bae0fc",
+        "type": "comment",
+        "z": "7198d981.c8e7c8",
+        "name": "WDR",
+        "info": "",
+        "x": 470,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "256d4211.05f8e6",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "WDR2",
+        "group": "5553aee6.4eab5",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "WDR2",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 8",
+        "payloadType": "str",
+        "topic": "",
+        "x": 590,
+        "y": 540,
+        "wires": [
+            [
+                "4a4375f5.cbbeac"
+            ]
+        ]
+    },
+    {
+        "id": "c83c803f.e95b6",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "WDR3",
+        "group": "5553aee6.4eab5",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "WDR3",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 9",
+        "payloadType": "str",
+        "topic": "",
+        "x": 590,
+        "y": 580,
+        "wires": [
+            [
+                "4a4375f5.cbbeac"
+            ]
+        ]
+    },
+    {
+        "id": "a9be899c.a3f65",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "WDR4",
+        "group": "5553aee6.4eab5",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "WDR4",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 10",
+        "payloadType": "str",
+        "topic": "",
+        "x": 590,
+        "y": 620,
+        "wires": [
+            [
+                "4a4375f5.cbbeac"
+            ]
+        ]
+    },
+    {
+        "id": "82a271cd.12b348",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "WDR5",
+        "group": "5553aee6.4eab5",
+        "order": 9,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "WDR5",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 11",
+        "payloadType": "str",
+        "topic": "",
+        "x": 590,
+        "y": 660,
+        "wires": [
+            [
+                "4a4375f5.cbbeac"
+            ]
+        ]
+    },
+    {
+        "id": "389c4db5.a3a882",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "2ee7f558.f1182a",
+        "name": "NPO1",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/NPO1.jpg\" width=\"63\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 90,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "64a84e8d.dc80d8",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "2ee7f558.f1182a",
+        "name": "NPO2",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/NPO2.jpg\" width=\"63\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 90,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32e50fec.9ed208",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "2ee7f558.f1182a",
+        "name": "NPO3",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/NPO3.jpg\" width=\"63\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 90,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f695f556.a42",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "2ee7f558.f1182a",
+        "name": "NPO4",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/NPO4.jpg\" width=\"63\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 90,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad492cfb.e43d",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "2ee7f558.f1182a",
+        "name": "NPO5",
+        "order": 10,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/NPO5.jpg\" width=\"63\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 90,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "814d9cbb.92bc3",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "2ee7f558.f1182a",
+        "name": "NPO6",
+        "order": 12,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/NPO6.jpg\" width=\"63\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 90,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7d9280d5.4bad68",
+        "type": "link in",
+        "z": "7198d981.c8e7c8",
+        "name": "MDP out",
+        "links": [
+            "db945362.c5bea",
+            "4a4375f5.cbbeac",
+            "ae7ec708.195ce8"
+        ],
+        "x": 335,
+        "y": 420,
+        "wires": [
+            [
+                "b048977c.4d001"
+            ]
+        ]
+    },
+    {
+        "id": "db945362.c5bea",
+        "type": "link out",
+        "z": "7198d981.c8e7c8",
+        "name": "",
+        "links": [
+            "7d9280d5.4bad68"
+        ],
+        "x": 335,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "61748cec.126ae4",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "5553aee6.4eab5",
+        "name": "1LIVE",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/1LIVE.jpg\" width=\"41\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 470,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "355057d0.4b8218",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "5553aee6.4eab5",
+        "name": "WDR2",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/WDR2.jpg\" width=\"41\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 470,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7d795d9e.f18f44",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "5553aee6.4eab5",
+        "name": "WDR3",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/WDR3.jpg\" width=\"41\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 470,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5f387a87.44a2dc",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "5553aee6.4eab5",
+        "name": "WDR4",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/WDR4.jpg\" width=\"41\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 470,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fa0dcaf.6a565",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "5553aee6.4eab5",
+        "name": "WDR5",
+        "order": 10,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/WDR5.jpg\" width=\"41\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 470,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4a4375f5.cbbeac",
+        "type": "link out",
+        "z": "7198d981.c8e7c8",
+        "name": "",
+        "links": [
+            "7d9280d5.4bad68"
+        ],
+        "x": 715,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "a647a416.e0b2b",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "100%NL",
+        "group": "a37c4062.3cc56",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "100%NL",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 13",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1000,
+        "y": 480,
+        "wires": [
+            [
+                "ae7ec708.195ce8"
+            ]
+        ]
+    },
+    {
+        "id": "3ad69a27.fc84fe",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "R538",
+        "group": "a37c4062.3cc56",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "R538",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 14",
+        "payloadType": "str",
+        "topic": "",
+        "x": 990,
+        "y": 520,
+        "wires": [
+            [
+                "ae7ec708.195ce8"
+            ]
+        ]
+    },
+    {
+        "id": "8eb6720c.cf58e",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "QMusic",
+        "group": "a37c4062.3cc56",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "QMusic",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 15",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1000,
+        "y": 560,
+        "wires": [
+            [
+                "ae7ec708.195ce8"
+            ]
+        ]
+    },
+    {
+        "id": "5e9b5c78.6199e4",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "SkyRadio",
+        "group": "a37c4062.3cc56",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "SkyRadio",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 16",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1000,
+        "y": 600,
+        "wires": [
+            [
+                "ae7ec708.195ce8"
+            ]
+        ]
+    },
+    {
+        "id": "c80d2508.cd6d08",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "Veronica",
+        "group": "a37c4062.3cc56",
+        "order": 9,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Veronica",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 17",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1000,
+        "y": 640,
+        "wires": [
+            [
+                "ae7ec708.195ce8"
+            ]
+        ]
+    },
+    {
+        "id": "ac8b1009.43669",
+        "type": "ui_button",
+        "z": "7198d981.c8e7c8",
+        "name": "Radio10",
+        "group": "a37c4062.3cc56",
+        "order": 11,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Radio10",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "play 18",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1000,
+        "y": 680,
+        "wires": [
+            [
+                "ae7ec708.195ce8"
+            ]
+        ]
+    },
+    {
+        "id": "69c431fc.a26a98",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "a37c4062.3cc56",
+        "name": "100NL",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/100PRONL.jpg\" width=\"80\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 850,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c98391dc.66e2c",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "a37c4062.3cc56",
+        "name": "R538",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/R538.jpg\" width=\"73\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 850,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6585a857.fa503",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "a37c4062.3cc56",
+        "name": "QMusic",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/QMusic.jpg\" width=\"80\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 860,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e7bc3bee.c767",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "a37c4062.3cc56",
+        "name": "SkyRadio",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/SkyRadio.jpg\" width=\"73\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 860,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "786554c7.3c35bc",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "a37c4062.3cc56",
+        "name": "Veronica",
+        "order": 10,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/Veronica.jpg\" width=\"80\" height=\"37\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 860,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8b3aeedd.16517",
+        "type": "ui_template",
+        "z": "7198d981.c8e7c8",
+        "group": "a37c4062.3cc56",
+        "name": "Radio10",
+        "order": 12,
+        "width": "2",
+        "height": "1",
+        "format": "<div>\n<center>\n<img src=\"/images/zenders/Radio10.jpg\" width=\"75\" height=\"41\">\n</center>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 860,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ae7ec708.195ce8",
+        "type": "link out",
+        "z": "7198d981.c8e7c8",
+        "name": "",
+        "links": [
+            "7d9280d5.4bad68"
+        ],
+        "x": 1115,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "6bba0f0e.c67ea",
+        "type": "comment",
+        "z": "7198d981.c8e7c8",
+        "name": "commercielen omroepen",
+        "info": "",
+        "x": 910,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "56f65a49.9eab54",
+        "type": "ui_group",
+        "z": "",
+        "name": "Control",
+        "tab": "d8a65be2.3fc8b8",
+        "order": 1,
+        "disp": true,
+        "width": "11",
+        "collapse": false
+    },
+    {
+        "id": "d1a27b8c.4edb9",
+        "type": "mpd-server",
+        "z": "",
+        "host": "192.168.1.126",
+        "port": "6600"
+    },
+    {
+        "id": "2ee7f558.f1182a",
+        "type": "ui_group",
+        "z": "",
+        "name": "Publieke Omroepen",
+        "tab": "d8a65be2.3fc8b8",
+        "order": 2,
+        "disp": true,
+        "width": "4",
+        "collapse": false
+    },
+    {
+        "id": "5553aee6.4eab5",
+        "type": "ui_group",
+        "z": "",
+        "name": "Pruuse",
+        "tab": "d8a65be2.3fc8b8",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": false
+    },
+    {
+        "id": "a37c4062.3cc56",
+        "type": "ui_group",
+        "z": "",
+        "name": "Commercielen",
+        "tab": "d8a65be2.3fc8b8",
+        "order": 4,
+        "disp": true,
+        "width": "4",
+        "collapse": false
+    },
+    {
+        "id": "d8a65be2.3fc8b8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "100 - Web Radio",
+        "icon": "fa-audio-description",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
