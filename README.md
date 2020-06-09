@@ -6,7 +6,9 @@ Enough tutorials to install music player daemeon.
 Put your player list in the correct folder. Player list:
 
 http://dummy/ch0
+
 http://icecast.omroep.nl/radio1-bb-aac
+
 http://icecast.omroep.nl/radio2-bb-aac
 http://icecast.omroep.nl/3fm-bb-aac
 http://icecast.omroep.nl/radio4-bb-aac
