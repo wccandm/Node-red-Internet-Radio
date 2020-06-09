@@ -4,6 +4,7 @@ Dutch internet radio with MPD and MPC
 Enough tutorials to install music player daemeon.
 
 Put your player list in the correct folder. Player list:
+
 http://dummy/ch0
 http://icecast.omroep.nl/radio1-bb-aac
 http://icecast.omroep.nl/radio2-bb-aac
@@ -25,4 +26,5 @@ https://20873.live.streamtheworld.com/VERONICA.mp3
 http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3
 
 Put images in the correct place, documentation can be found here:
+
 https://github.com/Paul-Reed/weather-icons
